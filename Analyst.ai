@@ -1,0 +1,123 @@
+Task 1: Dealing with hCaptcha while web scraping
+# You can use Selenium for browser automation and handling captchas
+from selenium import webdriver
+
+# Initialize a headless browser
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+driver = webdriver.Chrome(options=options)
+
+# Visit the webpage
+driver.get('https://example.com/page')  # Replace with the actual URL
+
+# Continue with your scraping code
+# ...
+
+# Remember to close the browser when done
+driver.quit()
+
+TASK 2:Estimating income range from LinkedIn profiles
+WITH CODES
+
+# Note: This is a simplified example and should be taken as a rough estimate only.
+
+def estimate_income(profile):
+    # Define income ranges based on job titles and industries (you may need to customize this)
+    income_ranges = {
+        'Software Engineer': (70000, 120000),
+        'Data Scientist': (80000, 130000),
+        'Product Manager': (90000, 150000),
+        'Marketing Manager': (75000, 120000),
+        # Add more job titles and their corresponding income ranges
+    }
+
+    # Get job title and industry from the profile (you'll need to implement a function for this)
+    job_title = get_job_title(profile)
+    industry = get_industry(profile)
+
+    # Use the job title and industry to estimate income
+    if job_title in income_ranges and industry in income_ranges[job_title]:
+        return income_ranges[job_title][industry]
+    else:
+        return None
+
+def get_job_title(profile):
+    # Implement a function to extract job title from the LinkedIn profile
+    # This could involve web scraping, NLP, or using the LinkedIn API (if available)
+    pass
+
+def get_industry(profile):
+    # Implement a function to extract industry information from the LinkedIn profile
+    # Similar to job title, this might involve web scraping, NLP, or using the LinkedIn API
+    pass
+
+# Example usage
+linkedin_profile = {
+    'name': 'John Doe',
+    'job_title': 'Software Engineer',
+    'industry': 'Information Technology and Services'
+}
+
+estimated_income = estimate_income(linkedin_profile)
+
+if estimated_income is not None:
+    print(f"Estimated income range for {linkedin_profile['name']} is ${estimated_income[0]} - ${estimated_income[1]}")
+else:
+    print(f"Could not estimate income for {linkedin_profile['name']}")
+
+TASK 3:- Finding LinkedIn company links
+import requests
+
+def get_linkedin_url(company_name):
+    # Make a request to LinkedIn API
+    response = requests.get(f'https://www.linkedin.com/voyager/api/search/blended?keywords={company_name}&origin=GLOBAL_SEARCH_HEADER')
+
+    # Parse the JSON response
+    data = response.json()
+    
+    # Extract the LinkedIn profile URL of the first company (you may need to adjust based on API response structure)
+    linkedin_url = data['elements'][0]['hitInfo']['com.linkedin.voyager.search.SearchOrganizationHit']['publicIdentifier']
+
+    return f'https://www.linkedin.com/company/{linkedin_url}'
+
+# Example usage
+company_name = 'Google'
+linkedin_url = get_linkedin_url(company_name)
+print(f'LinkedIn URL for {company_name}: {linkedin_url}')
+
+TASK 4:-How to identify list of companies whose tech stack is built on Python. Give names of 5 companies if possible, by your suggested approach
+
+import requests
+from bs4 import BeautifulSoup
+
+def find_python_companies():
+    url = "https://www.indeed.com/jobs?q=python&l="
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        companies = []
+
+        # Extract company names from the job listings
+        for listing in soup.find_all(class_='jobsearch-SerpJobCard'):
+            company = listing.find(class_='company')
+            if company:
+                companies.append(company.text.strip())
+
+        return companies
+    else:
+        print(f"Error fetching data. Status code: {response.status_code}")
+        return []
+
+python_companies = find_python_companies()
+
+# Print the first 5 companies (you can adjust the number)
+print(python_companies[:5])
+
+
+TASK 5:. Need to find an API, through which we can send linkedin messages to other linkedin users
+
+Sending LinkedIn messages programmatically via an API is not supported by LinkedIn's public API as of my last knowledge update in September 2021. 
+LinkedIn's API does not provide direct access to messaging features to prevent misuse and spam.
+If you need to send messages on LinkedIn, you'll have to do it manually through the LinkedIn platform.
+Be sure to follow LinkedIn's terms of service and policies regarding messaging and automation. Always respect privacy and avoid any activities that may violate user agreements.
